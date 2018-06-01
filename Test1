@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.bootcss.com/angular.js/1.4.6/angular.min.js"></script> 
+</head>
+<body>
+
+<p>尝试修改以下表单。</p>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+名: <input type="text" ng-model="firstName"><br>
+姓: <input type="text" ng-model="lastName"><br>
+<br>
+姓名: {{firstName + " " + lastName}}
+
+
+<div ng-controller="myCtrl2">
+	<input ng-model="name">
+	{{name2}}
+</div>
+
+<h2>myCtrl3</h2>
+<div ng-controller="myCtrl3">
+	姓名：
+	<input ng-model="name3"><br>
+	外号：
+	{{name3 | myfilter}}
+</div>
+<div ng-controller="myCtrl4">
+	<p>当面的URL</p>
+	<h3>{{myurl}}</h3>
+</div>
+<div ng-controller="myCtrl5">
+	<p>现在的时间</p>
+	<h1>{{theTime}}</h1>
+</div>
+
+
+
+
+<div ng-controller="myCtrln"></div>
+</div>
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.firstName= "John";
+    $scope.lastName= "Doe";
+});
+app.controller('myCtrl2', function($scope,$rootScope){
+	$scope.name = "Jackie";
+});
+app.controller('myCtrl3',function($scope){
+
+});
+app.filter('myfilter',function(){
+	return function(name){
+		var result = "Unknown";
+		switch(name) {
+			case "科比":
+			result = "黑曼巴";
+			break;
+			case "哈登":
+			result = "大胡子";
+			break;
+			case "詹姆斯":
+			result = "大皇帝";
+			break;
+			case "杜兰特":
+			result = "投敌杜";
+			break;
+			default:
+			break;
+		}
+		return result;
+	}
+});
+app.controller('myCtrl4',function($scope,$location){
+	$scope.myurl = $location.absUrl();
+});
+app.service('timeService',function(){
+	this.getTime = function () {
+		return new Date().toLocaleTimeString();
+	}
+});
+app.controller('myCtrl5',function($scope,$interval,timeService){
+	$interval(function(){
+		$scope.theTime = timeService.getTime();
+		//$scope.theTime = "DFASDF";
+	},1000);
+});
+
+
+
+
+app.controller('myCtrln',function($scope){
+
+});
+</script>
+
+</body>
+</html>
